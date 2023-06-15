@@ -1,0 +1,26 @@
+// BASE
+@import "base/mixins.scss";
+@import "base/variables.scss";
+@import "base/animations.scss";
+
+// COMPONENTS
+@import "components/search.scss";
+@import "components/recipe.scss";
+
+// LAYOUT
+@import "layout/header.scss";
+
+// PAGE
+@import "page/home.scss";
+
+// FONT
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+*{
+    font-family: 'DM Sans', sans-serif;
+}
+body{
+    max-width: 1400px;
+    margin: auto;
+}
+

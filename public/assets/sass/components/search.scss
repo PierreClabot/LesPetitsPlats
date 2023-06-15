@@ -1,0 +1,139 @@
+.container-search{
+
+    .search-bar{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        height: 70px;
+        background-color: #E7E7E7;
+        border-radius: $borderRadius;
+
+        .input-search{
+            width: 95%;
+            outline: none;
+            border: none;
+            padding-left: 2rem;
+            background-color: transparent;
+        }
+        .icone-search{
+            width: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+    
+    }
+
+    .container-tag{
+        display: flex;
+        flex-wrap: wrap;
+
+        .item-tag{
+            padding: 0.5rem 1rem ;
+            margin: 1rem 1rem 1rem 0;
+            color: #ffffff;
+            border-radius: $borderRadius;
+            display: flex;
+            align-items: center;
+            &.tag-ingredient{
+                background-color: #3282F7;
+            }
+            &.tag-appliance{
+                background-color: #68D9A4;
+            }
+            &.tag-ustensil{
+                background-color: #ED6454;
+            }
+
+            i{
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .container-filter{
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px 0;
+
+        .item-filter{
+            display: flex;
+            flex-direction: column;
+            width: 170px;
+            max-width: 400px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            color: #f1f1f1;
+            margin-right: 20px;
+            border-radius: 5px;
+            position: relative;
+            &.open{
+                border-radius: 5px 5px 0 0;
+            }
+            .title-filter{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+                input{
+                    width: 80%;
+                    height: 100%;
+                    outline: none;
+                    border: none;
+                    background-color: transparent;
+                    color: #f1f1f1;
+                    &::placeholder{
+                        color: #f1f1f1;
+                    }
+                }
+            }
+            &.open{
+                width: 670px;
+                max-width: none;
+                .list-filter{
+                    position: absolute;
+                    top: 70px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding : 0 20px;
+                    border-radius: 0 0 5px 5px;
+                    span{
+                        width: 30%;
+                        margin: 0.5rem 0 0.5rem 0;
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+            }
+            .list-filter{
+                display: none;
+            }
+        }
+        .filter-ingredient{
+            background-color: #3282F7;
+            .list-filter{
+                background-color: #3282F7;
+            }
+        }
+        .filter-device{
+            background-color: #68D9A4;
+            .list-filter{
+                background-color: #68D9A4;
+            }
+        }
+        .filter-utensil{
+            background-color: #ED6454;
+            .list-filter{
+                background-color: #ED6454;
+            }
+        }
+    }
+
+}
