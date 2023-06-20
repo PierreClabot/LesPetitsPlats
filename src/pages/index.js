@@ -34,7 +34,6 @@ class App{
             if(document.querySelector(".input-search").value.length >=3)
             {
                 this.clear();
-                console.log("AAAAAAAAAAAAAAAAA");
                 this.tags = this.getTags();
                 this.searchRecipe(this.tags);
                 //this.searchRecipe(this.dataFilter);
@@ -308,14 +307,48 @@ class App{
         return false;
     }
 
-    searchRecipeV2(){
+    searchRecipeV2(dataFilter){
         let saisie = document.querySelector(".input-search").value;
+        console.log(dataRecipe.name.search("")>0)
+        console.log("ICI",dataFilter)
         this.data.forEach(dataRecipe =>{
-            if(dataRecipe.name.search(saisie)>0 || dataRecipe.description.search(saisie)>0 || dataRecipe.ingredients.some(this.searchIngredientsV2.bind(null,saisie)))
+
+            if(dataRecipe.name.search(saisie)>0 || dataRecipe.description.search(saisie)>0 || dataRecipe.ingredients.some(this.searchIngredientsV2.bind(null,saisie)) || saisie=="")
             {
-                //console.log(this.data[i]);
-                const recipe = new cardRecipe(dataRecipe);
-                recipe.createCarte();
+                console.log("AAAAAAAAAA");
+                // ********************************
+                // const recipe = new cardRecipe(dataRecipe);
+                // recipe.createCarte();
+                // ******************************
+                let data ;
+                    if(!dataFilter.ingredients.length && !dataFilter.appliances.length && !dataFilter.ustensiles.length)
+                    {
+
+                        const recipe = new cardRecipe(dataRecipe);
+                        recipe.createCarte();
+                        this.checkFilter(dataRecipe);
+                    }
+                    else{
+
+                        console.log(dataFilter)
+                        let checkTag = this.checkTag(dataFilter,dataRecipe);
+
+                        if(checkTag)
+                        {
+                            const recipe = new cardRecipe(dataRecipe);
+                            recipe.createCarte();
+                            this.checkFilter(dataRecipe);
+                        }
+
+                    }
+                    data = { // on peuple les filtres
+                        ingredients : this.filterIngredients,
+                        appliances : this.filterAppliance,
+                        ustensiles : this.filterUstensiles
+                    }
+                    
+                    //const filter = new cardFilter(data)
+                    this.filter.updateFilter(data);
             }
         })
             

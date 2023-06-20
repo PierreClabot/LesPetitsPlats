@@ -27,7 +27,8 @@ class cardFilter{
                 {
                     target = target.parentNode;
                 }
-                target.querySelector(".list-filter");
+                //target.querySelector(".list-filter");
+                this.closeFilter(target)
                 if(target.classList.value.search("open")<0){ // s'il n'est pas ouvert, on l'ouvre
                     target.classList.add("open");
                     let classInput;
@@ -85,6 +86,38 @@ class cardFilter{
             })
         })
     }
+    closeFilter(currentTarget){
+        let filters = document.querySelectorAll(".item-filter");
+        filters.forEach(item=>{
+            if(item.classList.value != currentTarget.classList.value)
+            {
+                console.log("DDDDDDDDDD")
+                item.classList.remove("open");
+                    let affichage;
+                    if(item.classList.value.search("filter-ingredient")>0)
+                    {
+                        affichage = "Ingrédients";
+                    }
+                    else if(item.classList.value.search("filter-device")>0)
+                    {
+                        affichage = "Appareils";
+                    }
+                    else if(item.classList.value.search("filter-utensil")>0)
+                    {
+                        affichage = "Ustensiles";
+                    }
+                    item.innerHTML = `<div class="title-filter">
+                                        <span>${affichage}</span>
+                                        <i class="fa-solid fa-chevron-down" style="color: #ffffff;"></i>
+                                        </div>
+                                        <div class="list-filter">
+                                        </div>`
+            }
+            
+        })
+        this.printFilter();
+        this.eventFilter();
+    }
     printFilter(){
         let listIngredients = "";
         let listAppliance = "";
@@ -92,16 +125,19 @@ class cardFilter{
         if(this.data){
             for(const ingredient of this.data.ingredients)
             {
+                if(this.tagIngredients.includes(ingredient)) continue
                 listIngredients += `<span class='tag tag-ingredient'>${ingredient}</span>`
             }
 
             for(const appliance of this.data.appliances)
             {
+                if(this.tagAppliances.includes(appliance)) continue
                 listAppliance += `<span class='tag tag-appliance'>${appliance}</span>`
             }
 
             for(const ustentil of this.data.ustensiles)
             {
+                if(this.tagUstensiles.includes(ustentil)) continue
                 listUstensiles += `<span class='tag tag-ustensil'>${ustentil}</span>`
             }
 
@@ -134,9 +170,9 @@ class cardFilter{
         else if(target.classList.value.search("searchDevice")>=0){
             let affichage = "";
             console.log(this.data);
-            for(const device of this.data.appliance)
+            for(const device of this.data.appliances)
             {
-                if(device.toLowerCase().indexOf(saisie.toLowerCase())>=0)
+                if(device.toLowerCase().indexOf(saisie.toLowerCase())>=0 )
                 {
                     affichage +=`<span class='tag tag-appliance'>${device}</span>`;
                 }
@@ -147,9 +183,9 @@ class cardFilter{
             let affichage = "";
             for(const ustensile of this.data.ustensiles)
             {
-                if(ustensile.toLowerCase().indexOf(saisie.toLowerCase())>=0)
+                if(ustensile.toLowerCase().indexOf(saisie.toLowerCase())>=0 && !this.tagUstensiles.includes(ustensile))
                 {
-                    affichage +=`<span class='item-tag tag-ustensil'>${ustensile}</span>`;
+                    affichage +=`<span class='tag tag-ustensil'>${ustensile}</span>`;
                 }
             }
             document.querySelector(".filter-utensil .list-filter").innerHTML = affichage;
@@ -158,7 +194,7 @@ class cardFilter{
 
     }
     addEventTag(){
-        document.querySelectorAll(".tag").forEach(tag=>{
+        document.querySelectorAll(".container-filter .tag").forEach(tag=>{
             tag.removeEventListener("click",(e)=>this.addTag(e)); 
             tag.addEventListener("click",(e)=>{
                 e.stopImmediatePropagation();
