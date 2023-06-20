@@ -29,18 +29,18 @@ class App{
 
         this.filter.subscribe(this);
 
-        this.searchRecipe = this.searchRecipe.bind(this);
+        this.searchRecipe = this.searchRecipeV2.bind(this);
         document.querySelector(".input-search").addEventListener("keyup",()=>{
             if(document.querySelector(".input-search").value.length >=3)
             {
                 this.clear();
                 this.tags = this.getTags();
-                this.searchRecipe(this.tags);
+                this.searchRecipeV2(this.tags);
                 //this.searchRecipe(this.dataFilter);
             }
             else{
                 this.clear();
-                this.searchRecipe(this.tags);
+                this.searchRecipeV2(this.tags);
                 //this.displayAllRecipe();
 
             }
@@ -65,7 +65,7 @@ class App{
         for(let i=0;i<this.data.length;i++)
         {
             // si on a saisit quelque chose
-            if(document.querySelector(".input-search").value.length != 0)
+            if(document.querySelector(".input-search").value.length >= 4)
             {
 
                 if(this.data[i].name.toUpperCase().search(saisie.toUpperCase())>=0 || 
@@ -120,7 +120,6 @@ class App{
                         appliances : this.filterAppliance,
                         ustensiles : this.filterUstensiles
                     }
-                    console.log("XXXXXXXXXXXXXXXXXXXX",data);
                     //const filter = new cardFilter(data)
                     this.filter.updateFilter(data);
                     
@@ -140,7 +139,6 @@ class App{
         {
             //console.log(document.querySelectorAll(".item-tag.tag-ingredient"))
             document.querySelectorAll(".item-tag.tag-ingredient").forEach(tagIngredient=>{
-                console.log(tagIngredient);
                 tags.ingredients.push(tagIngredient.innerText);
             })
         }
@@ -156,15 +154,13 @@ class App{
                 tags.ustensiles.push(tagUstensil.innerText);
             })
         }
-        console.log("getTags",tags);
         return tags;
     }
 
     updateTag(data)
     {
         this.clear();
-        console.log(" ************* UPDATE TAG **************");
-        this.searchRecipe(data);
+        this.searchRecipeV2(data);
     }
     checkTag(dataFilter,dataRecipe){
 
@@ -195,7 +191,6 @@ class App{
             if(dataRecipe.appliance.toUpperCase() == appliance.toUpperCase()) // Si on trouve l'ingrédient tag dans la recette -> bool à vrai
             {
                 boolFindAppliance = true;
-                console.log("APPLIANCE TROUVEE ******")
             }
 
             if(!boolFindAppliance){ // si bool toujours à faux, on a pas trouvé l'ingrédient dans la recette -> on sort
@@ -238,7 +233,6 @@ class App{
         let dataIngredients = dataRecipe.ingredients;
         let dataUstentils = dataRecipe.ustensils;
         let dataAppliance = dataRecipe.appliance;
-
         for(const ingredient of dataIngredients) // on parcourt les ingrédients de la recette
         {
             let boolFind = false;
@@ -309,47 +303,66 @@ class App{
 
     searchRecipeV2(dataFilter){
         let saisie = document.querySelector(".input-search").value;
-        console.log(dataRecipe.name.search("")>0)
-        console.log("ICI",dataFilter)
+        this.resetFilter();
         this.data.forEach(dataRecipe =>{
-
-            if(dataRecipe.name.search(saisie)>0 || dataRecipe.description.search(saisie)>0 || dataRecipe.ingredients.some(this.searchIngredientsV2.bind(null,saisie)) || saisie=="")
+            if(saisie.length >= 4)
             {
-                console.log("AAAAAAAAAA");
-                // ********************************
-                // const recipe = new cardRecipe(dataRecipe);
-                // recipe.createCarte();
-                // ******************************
-                let data ;
-                    if(!dataFilter.ingredients.length && !dataFilter.appliances.length && !dataFilter.ustensiles.length)
-                    {
-
-                        const recipe = new cardRecipe(dataRecipe);
-                        recipe.createCarte();
-                        this.checkFilter(dataRecipe);
-                    }
-                    else{
-
-                        console.log(dataFilter)
-                        let checkTag = this.checkTag(dataFilter,dataRecipe);
-
-                        if(checkTag)
+                if(dataRecipe.name.search(saisie)>0 || dataRecipe.description.search(saisie)>0 || dataRecipe.ingredients.some(this.searchIngredientsV2.bind(null,saisie)))
+                {
+                    // ********************************
+                    // const recipe = new cardRecipe(dataRecipe);
+                    // recipe.createCarte();
+                    // ******************************
+                    let data ;
+                        if(!dataFilter.ingredients.length && !dataFilter.appliances.length && !dataFilter.ustensiles.length)
                         {
+    
                             const recipe = new cardRecipe(dataRecipe);
                             recipe.createCarte();
                             this.checkFilter(dataRecipe);
                         }
+                        else{
+    
+                            console.log(dataFilter)
+                            let checkTag = this.checkTag(dataFilter,dataRecipe);
+    
+                            if(checkTag)
+                            {
+                                const recipe = new cardRecipe(dataRecipe);
+                                recipe.createCarte();
+                                this.checkFilter(dataRecipe);
+                            }
+    
+                        }
+                        data = { // on peuple les filtres
+                            ingredients : this.filterIngredients,
+                            appliances : this.filterAppliance,
+                            ustensiles : this.filterUstensiles
+                        }
+                        
+                        //const filter = new cardFilter(data)
+                        this.filter.updateFilter(data);
+                }
+            }
+            else{
+                this.tags = this.getTags();
+                if(this.checkTag(this.tags,dataRecipe)){
 
-                    }
-                    data = { // on peuple les filtres
+                    const recipe = new cardRecipe(dataRecipe); 
+                    recipe.createCarte();
+                    this.checkFilter(dataRecipe);
+
+                    let data = { // on peuple les filtres
                         ingredients : this.filterIngredients,
                         appliances : this.filterAppliance,
                         ustensiles : this.filterUstensiles
                     }
-                    
-                    //const filter = new cardFilter(data)
+
                     this.filter.updateFilter(data);
+                    
+                }
             }
+            
         })
             
     }

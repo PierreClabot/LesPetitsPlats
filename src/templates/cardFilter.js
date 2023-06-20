@@ -91,7 +91,7 @@ class cardFilter{
         filters.forEach(item=>{
             if(item.classList.value != currentTarget.classList.value)
             {
-                console.log("DDDDDDDDDD")
+
                 item.classList.remove("open");
                     let affichage;
                     if(item.classList.value.search("filter-ingredient")>0)
@@ -267,8 +267,6 @@ class cardFilter{
             texte = target.querySelector("span").innerText;
             document.querySelector(".filter-utensil .list-filter").innerHTML += `<span class="tag tag-appliance">${texte}</span>`
         }
-        console.log("dom",dom)
-        //dom.innerHTML = "";
         dom.remove();
         this.removeTagToSearch(type,texte)
         this.addEventTag();
@@ -291,8 +289,7 @@ class cardFilter{
             appliances:this.tagAppliances,
             ustensiles:this.tagUstensiles
         }
-        console.log("fireData",data);
-        console.log("********************************************")
+
         this.fire(data);
         
         // console.log("this.tagIngredient",this.tagIngredients);
