@@ -29,18 +29,18 @@ class App{
 
         this.filter.subscribe(this);
 
-        this.searchRecipe = this.searchRecipeV2.bind(this);
+        this.searchRecipe = this.searchRecipe.bind(this);
         document.querySelector(".input-search").addEventListener("keyup",()=>{
             if(document.querySelector(".input-search").value.length >=3)
             {
                 this.clear();
                 this.tags = this.getTags();
-                this.searchRecipeV2(this.tags);
+                this.searchRecipe(this.tags);
                 //this.searchRecipe(this.dataFilter);
             }
             else{
                 this.clear();
-                this.searchRecipeV2(this.tags);
+                this.searchRecipe(this.tags);
                 //this.displayAllRecipe();
 
             }
@@ -160,7 +160,7 @@ class App{
     updateTag(data)
     {
         this.clear();
-        this.searchRecipeV2(data);
+        this.searchRecipe(data);
     }
     checkTag(dataFilter,dataRecipe){
 
