@@ -1,6 +1,5 @@
 import dataRecipe from "../apis/recipeApi.js"
 import cardRecipe from "../templates/cardRecipe.js";
-import utils from "../utils/utils.js";
 import cardFilter from "../templates/cardFilter.js";
 
 class App{
@@ -36,13 +35,10 @@ class App{
                 this.clear();
                 this.tags = this.getTags();
                 this.searchRecipe(this.tags);
-                //this.searchRecipe(this.dataFilter);
             }
             else{
                 this.clear();
                 this.searchRecipe(this.tags);
-                //this.displayAllRecipe();
-
             }
         })
 
@@ -60,19 +56,17 @@ class App{
     }
     searchRecipe(dataFilter){
         let saisie = document.querySelector(".input-search").value; // saisie utilisateur
-        console.log("dataFilter",dataFilter);
         this.resetFilter();
         for(let i=0;i<this.data.length;i++)
         {
             // si on a saisit quelque chose
             if(document.querySelector(".input-search").value.length >= 4)
             {
-
+                //console.log(this.searchIngredient(saisie,this.data[0].ingredients))
                 if(this.data[i].name.toUpperCase().search(saisie.toUpperCase())>=0 || 
                 this.data[i].description.search(saisie)>=0 || 
                 this.searchIngredient(saisie,this.data[i].ingredients))
                 {
-                    console.log("dataFilterIngredients",dataFilter.appliances.length);
                     let data ;
                     if(!dataFilter.ingredients.length && !dataFilter.appliances.length && !dataFilter.ustensiles.length)
                     {
@@ -83,7 +77,6 @@ class App{
                     }
                     else{
 
-                        console.log(dataFilter)
                         let checkTag = this.checkTag(dataFilter,this.data[i]);
 
                         if(checkTag)
@@ -100,7 +93,6 @@ class App{
                         ustensiles : this.filterUstensiles
                     }
                     
-                    //const filter = new cardFilter(data)
                     this.filter.updateFilter(data);
 
                 }
@@ -108,9 +100,7 @@ class App{
             else{
 
                 this.tags = this.getTags();
-                //console.log("this.tag",this.tag)
                 if(this.checkTag(this.tags,this.data[i])){
-                    //console.log("checkTagVerif",this.data[i]);
                     const recipe = new cardRecipe(this.data[i]); 
                     recipe.createCarte();
                     this.checkFilter(this.data[i]);
@@ -120,7 +110,6 @@ class App{
                         appliances : this.filterAppliance,
                         ustensiles : this.filterUstensiles
                     }
-                    //const filter = new cardFilter(data)
                     this.filter.updateFilter(data);
                     
                 }
@@ -137,7 +126,6 @@ class App{
         }
         if(document.querySelectorAll(".item-tag.tag-ingredient"))
         {
-            //console.log(document.querySelectorAll(".item-tag.tag-ingredient"))
             document.querySelectorAll(".item-tag.tag-ingredient").forEach(tagIngredient=>{
                 tags.ingredients.push(tagIngredient.innerText);
             })
@@ -170,7 +158,6 @@ class App{
         let boolTagIngredient = true;
         let boolTagAppliance = true;
         let boolTagUstensil = true;
-        //console.log("ingredients",ingredients);
         for(const ingredient of ingredients){ // On parcourt les ingrédients des tags
             let boolFindIngredient = false;
             for(const ingredientRecipe of dataRecipe.ingredients) // on parcourt les ingrédients de la recette
@@ -214,16 +201,10 @@ class App{
                 break;
             }
         }
-        // console.log("dataRecipe",dataRecipe)
-        //console.log("boolTagIngredient",boolTagIngredient)
-        //console.log("boolTagAppliance",boolTagAppliance)
-        //console.log("boolTagUstensil",boolTagUstensil)
 
         if(boolTagAppliance && boolTagIngredient && boolTagUstensil)
         {
-            //console.log("ICIIIIII")
             return true
-            //return true;
         } // else
         return false
 
@@ -283,7 +264,7 @@ class App{
             })
             if(!booVerifAffiche)
             {
-                this.filterAppliance.push(dataAppliance); // @REMPLACE set???
+                this.filterAppliance.push(dataAppliance); 
             }
         }
         
@@ -293,7 +274,7 @@ class App{
     {
         for(const ingredient of arrayIngredients) // recherche %saisie%
         {
-            if(ingredient === saisie){
+            if(ingredient.ingredient.toUpperCase().search(saisie.toUpperCase()) >= 0){
                 return true;
             }
         }
@@ -301,7 +282,8 @@ class App{
         return false;
     }
 
-    searchRecipeV2(dataFilter){
+    searchRecipeV2(dataFilter)
+    {
         let saisie = document.querySelector(".input-search").value;
         this.resetFilter();
         this.data.forEach(dataRecipe =>{
@@ -309,10 +291,7 @@ class App{
             {
                 if(dataRecipe.name.search(saisie)>0 || dataRecipe.description.search(saisie)>0 || dataRecipe.ingredients.some(this.searchIngredientsV2.bind(null,saisie)))
                 {
-                    // ********************************
-                    // const recipe = new cardRecipe(dataRecipe);
-                    // recipe.createCarte();
-                    // ******************************
+
                     let data ;
                         if(!dataFilter.ingredients.length && !dataFilter.appliances.length && !dataFilter.ustensiles.length)
                         {
@@ -322,8 +301,7 @@ class App{
                             this.checkFilter(dataRecipe);
                         }
                         else{
-    
-                            console.log(dataFilter)
+
                             let checkTag = this.checkTag(dataFilter,dataRecipe);
     
                             if(checkTag)
@@ -397,4 +375,3 @@ class App{
 }
 
 const app = new App();
-//app.main();

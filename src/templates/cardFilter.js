@@ -12,13 +12,13 @@ class cardFilter{
 
         
     }
-    updateFilter(data){
+    updateFilter(data){ // Mettre à jour les données des filtres
         this.data = data;
         this.printFilter();
         this.eventFilter();
     }
 
-    eventFilter(){
+    eventFilter(){ // Ajouter les events au clic des filtres
         document.querySelectorAll(".title-filter").forEach(domFilter=>{
             domFilter.addEventListener("click",(e)=>{
                 e.stopImmediatePropagation();
@@ -118,7 +118,7 @@ class cardFilter{
         this.printFilter();
         this.eventFilter();
     }
-    printFilter(){
+    printFilter(){ // Afficher les tags dans les filtres
         let listIngredients = "";
         let listAppliance = "";
         let listUstensiles = "";
@@ -169,7 +169,6 @@ class cardFilter{
         }
         else if(target.classList.value.search("searchDevice")>=0){
             let affichage = "";
-            console.log(this.data);
             for(const device of this.data.appliances)
             {
                 if(device.toLowerCase().indexOf(saisie.toLowerCase())>=0 )
@@ -292,9 +291,6 @@ class cardFilter{
 
         this.fire(data);
         
-        // console.log("this.tagIngredient",this.tagIngredients);
-        // console.log("this.tagAppliances",this.tagAppliances);
-        // console.log("this.tagUstensiles",this.tagUstensiles);
     }
 
     removeItemArray(array,element){
@@ -318,7 +314,7 @@ class cardFilter{
         );
     }
 
-    fire(evt) { // envoyer l'event like au compteur global
+    fire(evt) { // Envoyer l'event à la page
         this.observers.forEach((item) => {
             item.updateTag(evt);
         });
