@@ -169,7 +169,6 @@ class cardFilter{
         }
         else if(target.classList.value.search("searchDevice")>=0){
             let affichage = "";
-            console.log(this.data);
             for(const device of this.data.appliances)
             {
                 if(device.toLowerCase().indexOf(saisie.toLowerCase())>=0 )
@@ -291,10 +290,7 @@ class cardFilter{
         }
 
         this.fire(data);
-        
-        // console.log("this.tagIngredient",this.tagIngredients);
-        // console.log("this.tagAppliances",this.tagAppliances);
-        // console.log("this.tagUstensiles",this.tagUstensiles);
+
     }
 
     removeItemArray(array,element){
